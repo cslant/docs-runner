@@ -29,7 +29,26 @@ welcome() {
 }
 
 usage() {
-  echo "Usage: $0 {git_clone}"
+  welcome
+  echo "Usage: bash $0 [command] [args]"
+  echo ""
+  echo "Commands:"
+  echo "  welcome         Show welcome message"
+  echo "  help            Show this help message"
+  echo "  git_sync        Sync git repository"
+  echo "  docs_sync       Sync docs repository"
+  echo "  build           Build docs"
+  echo "  all             Sync git and docs repository, build docs"
+  echo ""
+  echo "Args for docs_sync:"
+  echo "  tgn             Sync telegram-git-notifier-docs repository"
+  echo "  all             Sync all docs repository"
+  echo ""
+  echo "Example:"
+  echo "  bash $0 git_sync"
+  echo "  bash $0 docs_sync all"
+  echo "  bash $0 build"
+  echo ""
 }
 
 git_sync() {
@@ -50,13 +69,17 @@ git_sync() {
   echo ""
 }
 
-telegram_git_notifier_docs_sync() {
-  echo "» Syncing docs..."
+build() {
+  echo "◎ Building docs..."
 
   cd "$DOCS_DIR" || exit
 
-  cd repo || exit
+  echo "  ∟ Yarn build..."
+  yarn build
+}
 
+telegram_git_notifier_docs_sync() {
+  echo "» Syncing telegram-git-notifier-docs repository..."
   if [ -z "$(ls -A "telegram-git-notifier-docs")" ]; then
     echo "  ∟ Cloning telegram-git-notifier-docs repository..."
     git clone git@github.com:cslant/telegram-git-notifier-docs.git
@@ -68,44 +91,54 @@ telegram_git_notifier_docs_sync() {
   echo ""
 }
 
-build() {
-  echo "◎ Building docs..."
-
-  cd "$DOCS_DIR" || exit
-
-  echo "  ∟ Yarn build..."
-  yarn build
-}
-
 case "$1" in
+  welcome)
+    welcome
+    ;;
 
-welcome)
-  welcome
-  ;;
+  help)
+    usage
+    ;;
 
-help)
-  welcome
-  usage
-  ;;
+  git_sync)
+    git_sync
+    ;;
 
-git_sync)
-  git_sync
-  ;;
+  docs_sync)
+    echo "◎ Syncing docs..."
 
-docs_sync)
-  telegram_git_notifier_docs_sync
-  ;;
+    cd "$DOCS_DIR/repo" || exit
+    echo ""
 
-all)
-  git_sync
+    case "$2" in
+      tgn)
+        telegram_git_notifier_docs_sync
+        ;;
 
-  telegram_git_notifier_docs_sync
+      all)
+        telegram_git_notifier_docs_sync
+        ;;
+    esac
 
-  build
-  ;;
+    echo ''
+    echo '◎ Syncing docs done!'
+    ;;
 
-*)
-  usage
-  exit 1
-  ;;
+  build)
+    build
+    ;;
+
+  all)
+    git_sync
+
+    cd "$DOCS_DIR/repo" || exit
+    telegram_git_notifier_docs_sync
+
+    build
+    ;;
+
+  *)
+    usage
+    exit 1
+    ;;
 esac
