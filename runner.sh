@@ -53,21 +53,21 @@ usage() {
 }
 
 git_sync() {
-  echo "» Syncing git repository..."
+  echo '» Syncing git repository...'
 
   if [ ! -d "$DOCS_DIR" ]; then
     cd "$SOURCE_DIR" || exit
 
-    echo "  ∟ Cloning main-docs repository..."
+    echo '  ∟ Cloning main-docs repository...'
     git clone "$DOCS_REPO" "$DOCS_NAME"
   else
     cd "$DOCS_DIR" || exit
 
-    echo "  ∟ Pulling main-docs repository..."
+    echo '  ∟ Pulling main-docs repository...'
     git pull
   fi
 
-  echo ""
+  echo ''
 }
 
 docs_sync() {
@@ -87,6 +87,7 @@ docs_sync() {
   esac
 
   echo '◎ Syncing docs done!'
+  echo ''
 }
 
 build() {
@@ -96,10 +97,11 @@ build() {
 
   echo '  ∟ Yarn build...'
   yarn build
+  echo ''
 }
 
 worker() {
-  echo "◎ Starting worker..."
+  echo '◎ Starting worker...'
 
   if pm2 show "$WORKER_NAME" > /dev/null; then
     echo "  ∟ Restarting $WORKER_NAME..."
@@ -109,19 +111,22 @@ worker() {
     cd "$DOCS_DIR" || exit
     pm2 start yarn --name "$WORKER_NAME" -- start
   fi
+  echo ''
 }
 
 telegram_git_notifier_docs_sync() {
-  echo "» Syncing telegram-git-notifier-docs repository..."
-  if [ -z "$(ls -A "telegram-git-notifier-docs")" ]; then
-    echo "  ∟ Cloning telegram-git-notifier-docs repository..."
-    git clone git@github.com:cslant/telegram-git-notifier-docs.git
+  REPO_NAME="telegram-git-notifier-docs"
+
+  echo "» Syncing $REPO_NAME repository..."
+  if [ -z "$(ls -A "$REPO_NAME")" ]; then
+    echo "  ∟ Cloning $REPO_NAME repository..."
+    git clone git@github.com:cslant/"$REPO_NAME".git
   else
-    echo "  ∟ Pulling telegram-git-notifier-docs repository..."
+    echo "  ∟ Pulling $REPO_NAME repository..."
     cd telegram-git-notifier-docs || exit
     git pull
   fi
-  echo ""
+  echo ''
 }
 
 case "$1" in
