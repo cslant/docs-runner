@@ -38,6 +38,7 @@ usage() {
   echo "  git_sync        Sync git repository"
   echo "  docs_sync       Sync docs repository"
   echo "  build           Build docs"
+  echo "  worker          Start worker"
   echo "  all             Sync git and docs repository, build docs"
   echo ""
   echo "Args for docs_sync:"
@@ -69,12 +70,31 @@ git_sync() {
   echo ""
 }
 
+docs_sync() {
+  echo '◎ Syncing docs...'
+
+  cd "$DOCS_DIR/repo" || exit
+  echo ''
+
+  case "$1" in
+    tgn)
+      telegram_git_notifier_docs_sync
+      ;;
+
+    all)
+      telegram_git_notifier_docs_sync
+      ;;
+  esac
+
+  echo '◎ Syncing docs done!'
+}
+
 build() {
-  echo "◎ Building docs..."
+  echo '◎ Building docs...'
 
   cd "$DOCS_DIR" || exit
 
-  echo "  ∟ Yarn build..."
+  echo '  ∟ Yarn build...'
   yarn build
 }
 
@@ -118,36 +138,22 @@ case "$1" in
     ;;
 
   docs_sync)
-    echo "◎ Syncing docs..."
-
-    cd "$DOCS_DIR/repo" || exit
-    echo ""
-
-    case "$2" in
-      tgn)
-        telegram_git_notifier_docs_sync
-        ;;
-
-      all)
-        telegram_git_notifier_docs_sync
-        ;;
-    esac
-
-    echo ''
-    echo '◎ Syncing docs done!'
+    docs_sync "$2"
     ;;
 
   build)
     build
     ;;
 
+  worker)
+    worker
+    ;;
+
   all)
     git_sync
-
-    cd "$DOCS_DIR/repo" || exit
-    telegram_git_notifier_docs_sync
-
+    docs_sync all
     build
+    worker
     ;;
 
   *)
