@@ -11,45 +11,45 @@ DOCS_DIR="$SOURCE_DIR/$DOCS_NAME"
 
 welcome() {
   # figlet
-  echo "
+  echo '
     ____ ____  _        _    _   _ _____
    / ___/ ___|| |      / \  | \ | |_   _|
   | |   \___ \| |     / _ \ |  \| | | |
   | |___ ___) | |___ / ___ \| |\  | | |
    \____|____/|_____/_/   \_\_| \_| |_|
-  "
-  echo ""
-  echo "» Welcome to the docs runner!"
-  echo ""
+  '
+  echo ''
+  echo '» Welcome to the docs runner!'
+  echo ''
   echo "- Current dir        : $CURRENT_DIR"
   echo "- Source dir         : $SOURCE_DIR"
   echo "- Docs name          : $DOCS_NAME"
   echo "- Docs dir           : $DOCS_DIR"
-  echo ""
+  echo ''
 }
 
 usage() {
   welcome
   echo "Usage: bash $0 [command] [args]"
-  echo ""
-  echo "Commands:"
-  echo "  welcome         Show welcome message"
-  echo "  help            Show this help message"
-  echo "  git_sync        Sync git repository"
-  echo "  docs_sync       Sync docs repository"
-  echo "  build           Build docs"
-  echo "  worker          Start worker"
-  echo "  all             Sync git and docs repository, build docs"
-  echo ""
-  echo "Args for docs_sync:"
-  echo "  tgn             Sync telegram-git-notifier-docs repository"
-  echo "  all             Sync all docs repository"
-  echo ""
-  echo "Example:"
+  echo ''
+  echo 'Commands:'
+  echo '  welcome         Show welcome message'
+  echo '  help            Show this help message'
+  echo '  git_sync        Sync git repository'
+  echo '  docs_sync       Sync docs repository'
+  echo '  build           Build docs'
+  echo '  worker          Start worker'
+  echo '  all             Sync git and docs repository, build docs'
+  echo ''
+  echo 'Args for docs_sync:'
+  echo '  tgn             Sync telegram-git-notifier-docs repository'
+  echo '  all             Sync all docs repository'
+  echo ''
+  echo 'Example:'
   echo "  bash $0 git_sync"
   echo "  bash $0 docs_sync all"
   echo "  bash $0 build"
-  echo ""
+  echo ''
 }
 
 git_sync() {
@@ -123,7 +123,7 @@ telegram_git_notifier_docs_sync() {
     git clone git@github.com:cslant/"$REPO_NAME".git
   else
     echo "  ∟ Pulling $REPO_NAME repository..."
-    cd telegram-git-notifier-docs || exit
+    cd "$REPO_NAME" || exit
     git pull
   fi
   echo ''
