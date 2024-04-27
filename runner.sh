@@ -78,6 +78,19 @@ build() {
   yarn build
 }
 
+worker() {
+  echo "◎ Starting worker..."
+
+  if pm2 show "$WORKER_NAME" > /dev/null; then
+    echo "  ∟ Restarting $WORKER_NAME..."
+    pm2 restart "$WORKER_NAME"
+  else
+    echo "  ∟ Starting $WORKER_NAME..."
+    cd "$DOCS_DIR" || exit
+    pm2 start yarn --name "$WORKER_NAME" -- start
+  fi
+}
+
 telegram_git_notifier_docs_sync() {
   echo "» Syncing telegram-git-notifier-docs repository..."
   if [ -z "$(ls -A "telegram-git-notifier-docs")" ]; then
