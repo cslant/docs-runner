@@ -28,6 +28,10 @@ DOCS_NAME=main-docs
 WORKER_NAME=cslant-docs
 ```
 
+> [!IMPORTANT]
+> ## Command can't be used if wrong values are set in the `.env` file.
+> * If the `SOURCE_DIR` is wrong, the runner will not be able to find the source code. So, please make sure the `SOURCE_DIR` is correct.
+
 Then, run the following command to start the runner.
 
 ```bash
