@@ -10,16 +10,15 @@ SOURCE_DIR=$(readlink -f "$SOURCE_DIR")
 DOCS_DIR="$SOURCE_DIR/$DOCS_NAME"
 
 welcome() {
-  # figlet
   echo '
-    ____ ____  _        _    _   _ _____
-   / ___/ ___|| |      / \  | \ | |_   _|
-  | |   \___ \| |     / _ \ |  \| | | |
-  | |___ ___) | |___ / ___ \| |\  | | |
-   \____|____/|_____/_/   \_\_| \_| |_|
+  ____ ____  _        _    _   _ _____   ____   ___   ____ ____
+ / ___/ ___|| |      / \  | \ | |_   _| |  _ \ / _ \ / ___/ ___|
+| |   \___ \| |     / _ \ |  \| | | |   | | | | | | | |   \___ \
+| |___ ___) | |___ / ___ \| |\  | | |   | |_| | |_| | |___ ___) |
+ \____|____/|_____/_/   \_\_| \_| |_|   |____/ \___/ \____|____/
   '
   echo ''
-  echo '» Welcome to the docs runner!'
+  echo '⚡ Welcome to the docs runner!'
   echo ''
   echo "- Current dir        : $CURRENT_DIR"
   echo "- Source dir         : $SOURCE_DIR"
@@ -53,17 +52,20 @@ usage() {
 }
 
 git_sync() {
-  echo '» Syncing git repository...'
+  echo "📥 Syncing $DOCS_NAME repository..."
+  echo ''
 
   if [ ! -d "$DOCS_DIR" ]; then
     cd "$SOURCE_DIR" || exit
 
-    echo '  ∟ Cloning main-docs repository...'
+    echo "  ∟ Cloning $DOCS_NAME repository..."
     git clone "$DOCS_REPO" "$DOCS_NAME"
   else
     cd "$DOCS_DIR" || exit
 
-    echo '  ∟ Pulling main-docs repository...'
+    echo "  ∟ Pulling $DOCS_NAME repository..."
+
+    git checkout main -f
     git pull
   fi
 
@@ -71,7 +73,7 @@ git_sync() {
 }
 
 docs_sync() {
-  echo '◎ Syncing docs...'
+  echo '📥 Syncing docs...'
 
   cd "$DOCS_DIR/repo" || exit
   echo ''
@@ -86,12 +88,12 @@ docs_sync() {
       ;;
   esac
 
-  echo '◎ Syncing docs done!'
+  echo '✨ Syncing docs done!'
   echo ''
 }
 
 build() {
-  echo '◎ Building docs...'
+  echo '⚙ Building docs...'
 
   cd "$DOCS_DIR" || exit
 
@@ -101,7 +103,7 @@ build() {
 }
 
 worker() {
-  echo '◎ Starting worker...'
+  echo '📽 Starting worker...'
 
   if pm2 show "$WORKER_NAME" > /dev/null; then
     echo "  ∟ Restarting $WORKER_NAME..."
@@ -124,6 +126,8 @@ telegram_git_notifier_docs_sync() {
   else
     echo "  ∟ Pulling $REPO_NAME repository..."
     cd "$REPO_NAME" || exit
+
+    git checkout main -f
     git pull
   fi
   echo ''
