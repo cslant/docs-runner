@@ -120,7 +120,7 @@ worker() {
 
   if pm2 show "$WORKER_NAME" > /dev/null; then
     echo "  ∟ Restarting $WORKER_NAME..."
-    pm2 restart "$WORKER_NAME"
+    pm2 restart "$WORKER_NAME" --update-env
   else
     echo "  ∟ Starting $WORKER_NAME..."
     cd "$DOCS_DIR" || exit
