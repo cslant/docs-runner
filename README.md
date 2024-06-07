@@ -35,7 +35,7 @@ WORKER_NAME=cslant-docs
 Then, run the following command to start the runner.
 
 ```bash
-bash runnner.sh all
+bash runner.sh all
 ```
 
 ## Usage
