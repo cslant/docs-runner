@@ -105,6 +105,9 @@ build() {
   if [ ! -d "$DOCS_DIR/node_modules" ]; then
     echo '  ∟ Installing dependencies...'
     yarn install
+  else
+    echo '  ∟ Updating dependencies...'
+    yarn upgrade
   fi
 
   echo '  ∟ Yarn build...'
