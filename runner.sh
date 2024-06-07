@@ -97,6 +97,16 @@ build() {
 
   cd "$DOCS_DIR" || exit
 
+  if ! command -v yarn &> /dev/null; then
+    echo '  ∟ Installing yarn...'
+    npm install -g yarn
+  fi
+
+  if [ ! -d "$DOCS_DIR/node_modules" ]; then
+    echo '  ∟ Installing dependencies...'
+    yarn install
+  fi
+
   echo '  ∟ Yarn build...'
   yarn build
   echo ''
