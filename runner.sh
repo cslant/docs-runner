@@ -104,14 +104,26 @@ build() {
 
   if [ ! -d "$DOCS_DIR/node_modules" ]; then
     echo '  ∟ Installing dependencies...'
-    yarn install
+    if [ "$INSTALLER" = "yarn" ]; then
+      yarn install
+    else
+      npm install
+    fi
   else
     echo '  ∟ Updating dependencies...'
-    yarn upgrade
+    if [ "$INSTALLER" = "yarn" ]; then
+      yarn upgrade
+    else
+      npm update
+    fi
   fi
 
-  echo '  ∟ Yarn build...'
-  yarn build
+  echo '  ∟ INSTALLER build...'
+  if [ "$INSTALLER" = "yarn" ]; then
+    yarn build
+  else
+    npm run build
+  fi
   echo ''
 }
 
@@ -124,7 +136,12 @@ worker() {
   else
     echo "  ∟ Starting $WORKER_NAME..."
     cd "$DOCS_DIR" || exit
-    pm2 start yarn --name "$WORKER_NAME" -- start
+
+    if [ "$INSTALLER" = "yarn" ]; then
+      pm2 start yarn --name "$WORKER_NAME" -- start
+    else
+      pm2 start npm --name "$WORKER_NAME" -- run serve
+    fi
   fi
   echo ''
 }
