@@ -142,6 +142,7 @@ worker() {
     else
       pm2 start npm --name "$WORKER_NAME" -- run serve --port "$PORT"
     fi
+    pm2 save
   fi
   echo ''
 }
