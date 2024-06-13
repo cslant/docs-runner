@@ -138,9 +138,9 @@ worker() {
     cd "$DOCS_DIR" || exit
 
     if [ "$INSTALLER" = "yarn" ]; then
-      pm2 start yarn --name "$WORKER_NAME" -- start --port "$PORT"
+      pm2 start yarn --name "$WORKER_NAME" -- serve --port "$PORT"
     else
-      pm2 start npm --name "$WORKER_NAME" -- start --port "$PORT"
+      pm2 start npm --name "$WORKER_NAME" -- serve --port "$PORT"
     fi
   fi
   echo ''
