@@ -19,7 +19,7 @@ In the `.env` file, update the values to match your environment.
 
 SOURCE_DIR=/home/user/repo_dir
 
-DOCS_REPO=git@github.com:cslant/main-docs.git
+DOCS_REPO=git@github.com:cslant/docs.git
 
 # The name of the docs repo
 DOCS_NAME=main-docs
@@ -48,4 +48,3 @@ The runner has the following commands:
 | `build`  | Builds the docs              |
 | `worker` | Create or restart the worker |
 | `all`    | Runs all the commands        |
-

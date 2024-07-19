@@ -40,8 +40,8 @@ docs_sync() {
 }
 
 # ========================================
-# Repository: telegram-git-notifier-docs
 
+# Repository: telegram-git-notifier-docs
 telegram_git_notifier_docs_sync() {
   REPO_NAME="telegram-git-notifier-docs"
 
