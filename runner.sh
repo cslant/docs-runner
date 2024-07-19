@@ -7,6 +7,7 @@ set -ue
 
 source setup/tips.sh
 source setup/git.sh
+source setup/tools.sh
 source setup/functions.sh
 
 case "$1" in
