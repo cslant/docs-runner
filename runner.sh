@@ -15,7 +15,7 @@ case "$1" in
     welcome
     ;;
 
-  help)
+  help | tips)
     usage
     ;;
 
@@ -27,15 +27,15 @@ case "$1" in
     docs_sync "$2"
     ;;
 
-  build)
+  build | build_docs | b)
     build
     ;;
 
-  worker)
+  worker | start_worker | w)
     worker
     ;;
 
-  all)
+  all | a)
     git_sync
     docs_sync all
     build
