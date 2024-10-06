@@ -5,6 +5,7 @@ source .env
 set +a
 set -ue
 
+source setup/variables.sh
 source setup/tips.sh
 source setup/git.sh
 source setup/tools.sh
