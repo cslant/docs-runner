@@ -43,10 +43,8 @@ docs_sync() {
 }
 
 # ========================================
-
-# Repository: telegram-git-notifier-docs
-telegram_git_notifier_docs_sync() {
-  REPO_NAME="telegram-git-notifier-docs"
+repo_sync_template() {
+  REPO_NAME="$1"
 
   echo "» Syncing $REPO_NAME repository..."
   cd "$DOCS_DIR/repo" || exit
@@ -63,23 +61,12 @@ telegram_git_notifier_docs_sync() {
   echo ''
 }
 
-# ========================================
+# Repository: telegram-git-notifier-docs
+telegram_git_notifier_docs_sync() {
+  repo_sync_template "telegram-git-notifier-docs"
+}
 
 # Repository: laravel-like-docs
 laravel_like_docs_sync() {
-  REPO_NAME="laravel-like-docs"
-
-  echo "» Syncing $REPO_NAME repository..."
-  cd "$DOCS_DIR/repo" || exit
-  if [ -z "$(ls -A "$REPO_NAME")" ]; then
-    echo "  ∟ Cloning $REPO_NAME repository..."
-    git clone git@github.com:cslant/"$REPO_NAME".git
-  else
-    echo "  ∟ Pulling $REPO_NAME repository..."
-    cd "$REPO_NAME" || exit
-
-    git checkout main -f
-    git pull
-  fi
-  echo ''
+  repo_sync_template "laravel-like-docs"
 }
