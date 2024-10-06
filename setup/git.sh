@@ -47,7 +47,7 @@ repo_sync_template() {
   REPO_NAME="$1"
 
   echo "» Syncing $REPO_NAME repository..."
-  cd "$DOCS_DIR/repo" || exit
+  cd "$DOCS_DIR/repos" || exit
   if [ -z "$(ls -A "$REPO_NAME")" ]; then
     echo "  ∟ Cloning $REPO_NAME repository..."
     git clone git@github.com:cslant/"$REPO_NAME".git
