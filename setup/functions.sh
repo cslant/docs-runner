@@ -3,12 +3,14 @@ build() {
 
   cd "$DOCS_DIR" || exit
 
+  BUILD_TYPE="$1"
+
   if ! command -v yarn &> /dev/null; then
     echo '  ∟ Installing yarn...'
     npm install -g yarn
   fi
 
-  if [ ! -d "$DOCS_DIR/node_modules" ]; then
+  if [ ! -d "$DOCS_DIR/node_modules" ] || [ "$BUILD_TYPE" = "install" ]; then
     echo '  ∟ Installing dependencies...'
     if [ "$INSTALLER" = "yarn" ]; then
       yarn install

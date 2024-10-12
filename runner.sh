@@ -29,7 +29,7 @@ case "$1" in
     ;;
 
   build | build_docs | b)
-    build
+    build "${2:-install}"
     ;;
 
   worker | start_worker | w)
@@ -39,7 +39,7 @@ case "$1" in
   all | a)
     git_sync
     docs_sync all
-    build
+    build install
     worker
     ;;
 

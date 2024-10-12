@@ -33,6 +33,10 @@ usage() {
   echo '  tgn             Sync telegram-git-notifier-docs repository'
   echo '  all             Sync all docs repository'
   echo ''
+  echo 'Args for build:'
+  echo '  install         Install dependencies and build (default, if not set)'
+  echo '  update          Update dependencies and build'
+  echo ''
   echo 'Example:'
   echo "  bash $0 git_sync"
   echo "  bash $0 docs_sync all"
