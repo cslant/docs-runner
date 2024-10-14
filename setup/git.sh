@@ -51,7 +51,7 @@ clone_submodules() {
   cd "$DOCS_DIR" || exit
 
   git submodule update --init --recursive
-  git submodule foreach git pull origin main --recurse-submodules -f || true
+  git submodule foreach git pull origin main -f || true
   echo ''
 }
 
