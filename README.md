@@ -1,6 +1,6 @@
 # CSlant Docs Runner
 
-This repo is to set up the runner for updating docs at https://docs.cslant.com/
+This repo is to set up the runner for updating docs at https://docs.cslant.com
 
 We can use this runner to update the docs automatically with CI/CD pipelines.
 
