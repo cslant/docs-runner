@@ -33,7 +33,12 @@ docs_sync() {
       ;;
 
     all)
-      clone_submodules
+      if [ "$ENV" = "prod" ]; then
+        clone_submodules
+      else
+        telegram_git_notifier_docs_sync
+        laravel_like_docs_sync
+      fi
       ;;
   esac
 
