@@ -27,10 +27,10 @@ build() {
   fi
 
   echo '  ∟ INSTALLER build...'
-  if [ "$INSTALLER" = "yarn" ]; then
-    yarn build
+  if [ "$ENV" = "prod" ]; then
+    node_runner build
   else
-    npm run build
+    node_runner start
   fi
   echo ''
 }
@@ -51,6 +51,19 @@ worker() {
       pm2 start npm --name "$WORKER_NAME" -- run serve --port "$PORT"
     fi
     pm2 save
+  fi
+  echo ''
+}
+
+node_runner() {
+  echo '🏃‍♂️ Running node...'
+
+  cd "$DOCS_DIR" || exit
+
+  if [ "$INSTALLER" = "yarn" ]; then
+    yarn "$@"
+  else
+    npm run "$@"
   fi
   echo ''
 }

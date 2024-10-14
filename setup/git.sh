@@ -58,12 +58,17 @@ clone_submodules() {
 # ========================================
 repo_sync_template() {
   REPO_NAME="$1"
+  REPO_DIR="${2:-}"
+
+  if [ -z "$REPO_DIR" ]; then
+    REPO_DIR="$REPO_NAME"
+  fi
 
   echo "» Syncing $REPO_NAME repository..."
   cd "$DOCS_DIR/repos" || exit
-  if [ -z "$(ls -A "$REPO_NAME")" ]; then
+  if [ -z "$(ls -A "$REPO_DIR")" ]; then
     echo "  ∟ Cloning $REPO_NAME repository..."
-    git clone git@github.com:cslant/"$REPO_NAME".git
+    git clone git@github.com:cslant/"$REPO_NAME".git "$REPO_DIR"
   else
     echo "  ∟ Pulling $REPO_NAME repository..."
     cd "$REPO_NAME" || exit
@@ -77,6 +82,7 @@ repo_sync_template() {
 # Repository: telegram-git-notifier-docs
 telegram_git_notifier_docs_sync() {
   repo_sync_template "telegram-git-notifier-docs"
+  repo_sync_template "laravel-telegram-git-notifier" "telegram-git-notifier"
 }
 
 # Repository: laravel-like-docs
