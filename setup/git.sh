@@ -33,12 +33,19 @@ docs_sync() {
       ;;
 
     all)
-      telegram_git_notifier_docs_sync
-      laravel_like_docs_sync
+      clone_submodules
       ;;
   esac
 
   echo '✨ Syncing docs done!'
+  echo ''
+}
+
+clone_submodules() {
+  echo "📥 Cloning submodules..."
+  cd "$DOCS_DIR" || exit
+
+  git submodule update --init --recursive
   echo ''
 }
 
