@@ -13,6 +13,8 @@ This repo is to set up the runner for updating docs at https://docs.cslant.com
 
 We can use this runner to update the docs automatically with CI/CD pipelines.
 
+<img src="https://github.com/cslant/docs/blob/main/static/img/cslant-docs-runner.webp" alt="CSlant docs runner">
+
 ## Installation
 
 First, copy the `.env.example` file to `.env` and update the values.
