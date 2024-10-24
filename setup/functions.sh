@@ -4,6 +4,11 @@ build() {
   cd "$DOCS_DIR" || exit
 
   BUILD_TYPE="$1"
+  
+  if [ ! -f "$DOCS_DIR/.env" ]; then
+    echo '  ∟ .env file missing, copying from .env.example...'
+    cp "$DOCS_DIR/.env.example" "$DOCS_DIR/.env"
+  fi
 
   if ! command -v yarn &> /dev/null; then
     echo '  ∟ Installing yarn...'
