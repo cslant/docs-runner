@@ -71,7 +71,7 @@ repo_sync_template() {
     git clone "$GIT_SSH_URL"/"$REPO_NAME".git "$REPO_DIR"
   else
     echo "  ∟ Pulling $REPO_NAME repository..."
-    cd "$REPO_NAME" || exit
+    cd "$DOCS_DIR/repos/$REPO_DIR" || exit
 
     git checkout main -f
     git pull
