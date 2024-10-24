@@ -5,7 +5,7 @@ git_sync() {
   if [ ! -d "$DOCS_DIR" ]; then
     cd "$SOURCE_DIR" || exit
 
-    echo "  ∟ Cloning $DOCS_NAME repository..."
+    echo "  ∟ Cloning $DOCS_NAME repository... $DOCS_REPO"
     git clone "$DOCS_REPO" "$DOCS_NAME"
   else
     cd "$DOCS_DIR" || exit
@@ -68,7 +68,7 @@ repo_sync_template() {
   cd "$DOCS_DIR/repos" || exit
   if [ -z "$(ls -A "$REPO_DIR")" ]; then
     echo "  ∟ Cloning $REPO_NAME repository..."
-    git clone git@github.com:cslant/"$REPO_NAME".git "$REPO_DIR"
+    git clone "$GIT_SSH_URL"/"$REPO_NAME".git "$REPO_DIR"
   else
     echo "  ∟ Pulling $REPO_NAME repository..."
     cd "$REPO_NAME" || exit
