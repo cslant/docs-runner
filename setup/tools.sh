@@ -3,4 +3,4 @@ if [ "$ENV" = "prod" ]; then
     echo '  ∟ Installing pm2...'
     npm install -g pm2
   fi
-else
+fi
