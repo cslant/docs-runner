@@ -1,3 +1,5 @@
+#!/bin/bash
+
 build() {
   echo '⚙ Building docs...'
 

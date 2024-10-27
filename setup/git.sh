@@ -1,3 +1,5 @@
+#!/bin/bash
+
 git_sync() {
   echo "📥 Syncing $DOCS_NAME repository..."
   echo ''
