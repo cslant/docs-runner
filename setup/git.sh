@@ -33,7 +33,7 @@ docs_sync() {
       ;;
 
     all)
-      if [ "$ENV" = "prod" ]; then
+      if [ "$USE_SUBMODULES" = true ]; then
         clone_submodules
       else
         telegram_git_notifier_docs_sync
