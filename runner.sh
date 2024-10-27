@@ -5,6 +5,7 @@ source .env
 set +a
 set -ue
 
+# shellcheck disable=SC1091
 source setup/variables.sh
 source setup/tips.sh
 source setup/git.sh
