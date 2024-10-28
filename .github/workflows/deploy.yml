@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  NODE_VERSION: ${{ variables.GLOBAL_NVM_USE_VERSION }}
+
 jobs:
   deploy:
     runs-on: self-hosted
@@ -17,5 +20,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: |
+            source "$HOME/.nvm/nvm.sh"
+            nvm use $NODE_VERSION
             cd ${{ secrets.DOCS_RUNNER_PATH }}
             ${{ secrets.DOCS_RUNNER_SPECIAL_COMMAND }}
