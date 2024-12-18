@@ -47,16 +47,19 @@ worker() {
 
   if pm2 show "$WORKER_NAME" > /dev/null; then
     echo "  ∟ Restarting $WORKER_NAME..."
-    pm2 restart "$WORKER_NAME" --update-env
+    # pm2 restart "$WORKER_NAME" --update-env
+    pm2 reload ecosystem.config.cjs
   else
     echo "  ∟ Starting $WORKER_NAME..."
     cd "$DOCS_DIR" || exit
 
-    if [ "$INSTALLER" = "yarn" ]; then
-      pm2 start yarn --name "$WORKER_NAME" -- serve --port "$PORT"
-    else
-      pm2 start npm --name "$WORKER_NAME" -- run serve --port "$PORT"
-    fi
+#     if [ "$INSTALLER" = "yarn" ]; then
+#       pm2 start yarn --name "$WORKER_NAME" -- serve --port "$PORT"
+#     else
+#       pm2 start npm --name "$WORKER_NAME" -- run serve --port "$PORT"
+#     fi
+
+    pm2 start ecosystem.config.cjs
     pm2 save
   fi
   echo ''
