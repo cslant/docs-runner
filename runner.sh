@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -a
-# shellcheck source=.env
 source .env
 set +a
 set -ue
