@@ -34,12 +34,17 @@ docs_sync() {
       laravel_like_docs_sync
       ;;
 
+    github-project-php)
+      github_project_php_sync
+      ;;
+
     all)
       if [ "$USE_SUBMODULES" = true ]; then
         clone_submodules
       else
         telegram_git_notifier_docs_sync
         laravel_like_docs_sync
+        github_project_php_sync
       fi
       ;;
   esac
@@ -90,4 +95,8 @@ telegram_git_notifier_docs_sync() {
 # Repository: laravel-like-docs
 laravel_like_docs_sync() {
   repo_sync_template "laravel-like-docs"
+}
+
+github_project_php_sync() {
+  repo_sync_template "github-project-php-docs"
 }
