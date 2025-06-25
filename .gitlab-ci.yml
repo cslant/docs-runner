@@ -1,0 +1,17 @@
+stages:
+  - build
+
+variables:
+  GIT_STRATEGY: none
+
+build:
+  stage: build
+  tags:
+    - csl-176
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - cd $DOCS_RUNNER_PATH
+    - git reset --hard HEAD
+    - git clean -fd
+    - git pull
