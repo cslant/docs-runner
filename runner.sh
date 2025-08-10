@@ -38,6 +38,10 @@ case "$1" in
     worker
     ;;
 
+  update_assets)
+    update_assets
+    ;;
+
   all | a)
     git_sync
     docs_sync all

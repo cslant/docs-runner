@@ -77,3 +77,7 @@ node_runner() {
   fi
   echo ''
 }
+
+update_assets() {
+    rsync -avz --delete "$DOCS_DIR"/build/ "$SSH_NAME":"$SSH_DOCS_PATH"
+}

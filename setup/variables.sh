@@ -8,3 +8,5 @@ ENV=${ENV:-prod}
 GIT_SSH_URL=${GIT_SSH_URL:-git@github.com:cslant}
 DOCS_REPO="$GIT_SSH_URL/$DOCS_REPO.git"
 USE_SUBMODULES=${USE_SUBMODULES:-false}
+SSH_NAME=${SSH_NAME:-cslant}
+SSH_DOCS_PATH=${SSH_DOCS_PATH:-/home/cslant/docs.cslant.com}
