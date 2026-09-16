@@ -46,7 +46,7 @@ case "$1" in
     git_sync
     docs_sync all
     build install
-    worker
+    #worker
     ;;
 
   *)
