@@ -60,50 +60,30 @@ bash runner.sh all
 
 The runner has the following commands:
 
-| Command  | Description                  |
-|----------|------------------------------|
-| `help`   | Shows the help message       |
-| `build`  | Builds the docs              |
-| `worker` | Create or restart the worker |
-| `update_assets` | Deploy `build/` atomically (release + symlink swap + edge prewarm) |
-| `all`    | Runs all the commands        |
+| Command         | Description                                      |
+|-----------------|--------------------------------------------------|
+| `help`          | Shows the help message                           |
+| `git_sync`      | Pulls the docs repository                        |
+| `docs_sync`     | Pulls the per-package docs repositories          |
+| `build`         | Builds the docs                                  |
+| `worker`        | Create or restart the worker                     |
+| `update_assets` | Publishes `build/` to the web server over rsync  |
+| `all`           | `git_sync`, `docs_sync all` and `build install`   |
 
-## Atomic deploy (update_assets)
+`all` does not publish. The pipeline runs `./runner.sh a` and then
+`./runner.sh update_assets`, so a failed build never reaches the web server.
 
-`update_assets` no longer rsyncs in place (which made nginx serve a half-written
-directory during deploys → transient 4xx/5xx for hashed chunks requested just
-after a deploy). It now:
+## Publishing (update_assets)
 
-1. rsyncs `build/` into a **fresh release dir** on the display server:
-   `$SSH_DOCS_PATH-releases/<timestamp>-<git-sha>/`
-2. sanity-checks that `index.html` exists in the release
-3. atomically re-points the **live symlink** `$SSH_DOCS_PATH/current` to the new release
-4. pre-warms the shared edge cache for this release's hashed `js`/`css` assets
-5. prunes old releases, keeping the newest `$KEEP_RELEASES`
+`update_assets` rsyncs `build/` straight into `$SSH_DOCS_PATH` on the web server,
+which is the directory nginx serves. There is no release directory and no symlink
+swap: the publish is already atomic enough through two rsync flags.
 
-nginx must root at `$SSH_DOCS_PATH/current` (a symlink) — see `server-configs`
-`docs.cslant.com.main.conf`.
+- `--delay-updates` writes every file under a temporary name and renames them all
+  in one pass at the end.
+- `--delete-after` holds back the removal of the previous build until the new
+  files are in place.
 
-### One-time migration on the display server (only required once)
-
-```bash
-DOCS=/var/www/html/docs.cslant.com           # your actual SSH_DOCS_PATH
-RELEASES="$DOCS-releases"
-mkdir -p "$RELEASES"
-INIT="$RELEASES/$(date +%Y%m%d%H%M%S)-initial"
-rsync -a "$DOCS/" "$INIT/"
-ln -sfn "$INIT" "$DOCS/current"
-# apply the new nginx conf (root $docs_com_path/current), then:
-nginx -t && systemctl reload nginx
-# only after a deploy verifies fine, remove the old loose files under "$DOCS"/
-```
-
-### New `.env` keys (all optional)
-
-| Key | Default | Purpose |
-|-----|---------|---------|
-| `SSH_RELEASES_DIR` | `$SSH_DOCS_PATH-releases` | where release dirs are stored |
-| `SSH_LIVE_NAME` | `current` | live symlink name inside `$SSH_DOCS_PATH` |
-| `KEEP_RELEASES` | `5` | releases kept after prune |
-| `DOCS_PUBLIC_URL` | `https://docs.cslant.com` | base URL used for edge prewarm |
-| `PREWARM_MAX` | `80` | max hashed assets to pre-warm per deploy |
+Without both, the web root spends the whole transfer missing files that live
+pages are requesting, and visitors see failed `/assets/js/*.js` requests for as
+long as the sync takes.

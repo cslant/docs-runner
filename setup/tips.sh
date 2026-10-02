@@ -30,6 +30,7 @@ usage() {
   echo '  docs_sync       Sync docs repository'
   echo '  build           Build docs'
   echo '  worker          Start worker'
+  echo '  update_assets   Publish build/ to the web server over rsync'
   echo '  all             Sync git and docs repository, build docs'
   echo ''
   echo 'Args for docs_sync:'

@@ -73,7 +73,7 @@ repo_sync_template() {
 
   echo "» Syncing $REPO_NAME repository..."
   cd "$DOCS_DIR/repos" || exit
-  if [ -z "$(ls -A "$REPO_DIR")" ]; then
+  if [ ! -d "$REPO_DIR" ] || [ -z "$(ls -A "$REPO_DIR" 2>/dev/null)" ]; then
     echo "  ∟ Cloning $REPO_NAME repository..."
     git clone "$GIT_SSH_URL"/"$REPO_NAME".git "$REPO_DIR"
   else
